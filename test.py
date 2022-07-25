@@ -48,3 +48,10 @@ class Product_TestCase(unittest.TestCase):
             self.assertEqual(product.regulatory_definition, '49 CFR 173.128(a)(3)')
         with self.subTest():
             self.assertEqual(product.is_organic_peroxide, False)
+
+    def test_organic_peroxide_example_data_true(self):
+        '''Test Product method for calculating the organic_peroxide_calculator - True Case'''
+
+        product = Product(name='Product 1')
+        self.assertEqual(product.is_organic_peroxide, True)
+    
