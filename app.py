@@ -45,3 +45,17 @@ class Product():
     is_explosive: bool = False
     is_forbidden_for_transport: bool = False
     is_associate_administer_exempt: bool = False 
+
+
+def get_product_analytes(product_name) -> list(Analyte):
+    '''Retrieves all of the analytes of a given product, used in Product class post_init'''
+    return [
+        Analyte(
+            name=row.name,
+            cas_rn=row.cas,
+            smiles=row.smiles,
+            molecular_weight=row.mw,
+            min_concentration=row.min_conc,
+            max_concentration=row.max_conc
+        ) for row in df[df['product_id'] == product_name].itertuples()
+    ]
