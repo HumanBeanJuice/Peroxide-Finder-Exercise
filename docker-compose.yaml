@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: peroxidizer
+    command: python app.py --reload
+    ports:
+      - 80:80
+    volumes:
+      - .:/app

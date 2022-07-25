@@ -4,3 +4,5 @@
 !Product_List.csv
 !test.py
 !requirements.txt
+!docker-compose.yaml
+!Dockerfile
