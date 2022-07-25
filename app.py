@@ -152,16 +152,14 @@ def main() -> None:
         print('\nProducts defined as an Organic Peroxide under CFR 173.128(a)(4):')
         for product in product_list:
             if product.is_organic_peroxide == True:
-                print('Product: ',product.name, 'Regulatory Definition: ', product.regulatory_definition)
+                print('Product: ',product.name, ', Regulatory Definition: ', product.regulatory_definition)
 
         print('\nProducts NOT defined as an Organic Peroxide under CFR 173.128(a)(4):')
         for product in product_list:
             if product.is_organic_peroxide == False:
-                print('Product: ',product.name, 'Regulatory Definition: ', product.regulatory_definition)
+                print('Product: ',product.name, ', Regulatory Definition: ', product.regulatory_definition)
 
-    output()
+    output(product_list)
 
 if __name__ == '__main__':
     main()
-                
-
