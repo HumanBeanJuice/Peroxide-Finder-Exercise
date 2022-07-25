@@ -125,3 +125,43 @@ class Product():
         except KeyError as e:
             print(e)
             self.analytes = []
+
+
+
+def main() -> None:
+
+    product1 = Product(
+        name='Product 1'
+    )
+
+    product2 = Product(
+        name='Product 2'
+    )
+
+    product3 = Product(
+        name='Product 3'
+    )
+
+    product4 = Product(
+        name='Product 4'
+    )
+
+    product_list = [product1, product2, product3, product4]
+
+    def output(prod_list: list[Product]) -> None:
+        print('\nProducts defined as an Organic Peroxide under CFR 173.128(a)(4):')
+        for product in product_list:
+            if product.is_organic_peroxide == True:
+                print('Product: ',product.name, 'Regulatory Definition: ', product.regulatory_definition)
+
+        print('\nProducts NOT defined as an Organic Peroxide under CFR 173.128(a)(4):')
+        for product in product_list:
+            if product.is_organic_peroxide == False:
+                print('Product: ',product.name, 'Regulatory Definition: ', product.regulatory_definition)
+
+    output()
+
+if __name__ == '__main__':
+    main()
+                
+
