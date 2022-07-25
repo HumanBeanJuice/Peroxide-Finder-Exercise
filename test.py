@@ -26,7 +26,7 @@ class Product_TestCase(unittest.TestCase):
             self.assertEqual(product.regulatory_definition, '49 CFR 173.128(a)(1)')
         with self.subTest():
             self.assertEqual(product.is_organic_peroxide, False)
-            
+
     def test_is_forbidden_for_transport(self):
         '''Test setting the Product attribute and confirm the regulatory definition is correctly applied'''
 
@@ -35,5 +35,16 @@ class Product_TestCase(unittest.TestCase):
             self.assertEqual(product.is_forbidden_for_transport, True)
         with self.subTest():
             self.assertEqual(product.regulatory_definition, '49 CFR 173.128(a)(2)')
+        with self.subTest():
+            self.assertEqual(product.is_organic_peroxide, False)
+
+    def test_is_associate_administer(self):
+        '''Test setting the Product attribute and confirm the regulatory definition is correctly applied'''
+
+        product = Product(name='Product 1', is_associate_administer_exempt = True)
+        with self.subTest():
+            self.assertEqual(product.is_associate_administer_exempt, True)
+        with self.subTest():
+            self.assertEqual(product.regulatory_definition, '49 CFR 173.128(a)(3)')
         with self.subTest():
             self.assertEqual(product.is_organic_peroxide, False)
