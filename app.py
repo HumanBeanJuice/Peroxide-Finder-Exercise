@@ -20,3 +20,28 @@ df.rename(columns=
         'min (%)':'min_conc',
         'max (%)':'max_conc'
     }, inplace=True)
+
+# Setup classes that represent a Product and Analyte Objects
+
+@dataclass
+class Analyte():
+    '''Represents a chemical/compound'''
+
+    name: str
+    cas_rn: str
+    smiles: str
+    min_concentration: float
+    max_concentration: float
+    molecular_weight: float
+
+@dataclass
+class Product():
+    '''Product that contains a collection of Analyte(s) (constituents)'''
+
+    name: str
+    analytes: list[Analyte]
+    is_organic_peroxide: bool = False # Default attributes to False
+    regulatory_definition: str = ''
+    is_explosive: bool = False
+    is_forbidden_for_transport: bool = False
+    is_associate_administer_exempt: bool = False 
