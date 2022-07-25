@@ -117,3 +117,11 @@ class Product():
 
         return self.is_organic_peroxide
 
+    # Once a new Product has been initialized with a name, we have all the info we need to get its analytes and run the calculate_organic_peroxide func
+    def __post_init__(self) -> None:
+        try:
+            self.analytes = self.get_product_analytes(self.name)
+            self.calculate_organic_peroxide()
+        except KeyError as e:
+            print(e)
+            self.analytes = []
