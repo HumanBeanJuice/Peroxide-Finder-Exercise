@@ -39,13 +39,26 @@ class Product():
     '''Product that contains a collection of Analyte(s) (constituents)'''
 
     name: str
-    analytes: list[Analyte]
     is_organic_peroxide: bool = False # Default attributes to False
     regulatory_definition: str = ''
     is_explosive: bool = False
     is_forbidden_for_transport: bool = False
     is_associate_administer_exempt: bool = False 
+    analytes: list(Analyte) = field(init=False, default_factory=list)
 
+    def get_product_analytes(self, product_name) -> list(Analyte):
+        '''Retrieves all of the analytes of a given product, used in Product class post_init'''
+        return [
+            Analyte(
+                name=row.name,
+                cas_rn=row.cas,
+                smiles=row.smiles,
+                molecular_weight=row.mw,
+                min_concentration=row.min_conc,
+                max_concentration=row.max_conc
+            ) for row in df[df['product_id'] == product_name].itertuples()
+        ]
+    
     def calculate_organic_peroxide(self) -> bool:
         '''Calculate whether or not the Product is considered an organic peroxide in accordance with 49 CFR 173.128(a)(4)'''
 
@@ -104,16 +117,3 @@ class Product():
 
         return self.is_organic_peroxide
 
-
-def get_product_analytes(product_name) -> list(Analyte):
-    '''Retrieves all of the analytes of a given product, used in Product class post_init'''
-    return [
-        Analyte(
-            name=row.name,
-            cas_rn=row.cas,
-            smiles=row.smiles,
-            molecular_weight=row.mw,
-            min_concentration=row.min_conc,
-            max_concentration=row.max_conc
-        ) for row in df[df['product_id'] == product_name].itertuples()
-    ]
