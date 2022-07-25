@@ -1,0 +1,6 @@
+*
+!.gitignore
+!app.py
+!Product_List.csv
+!test.py
+!requirements.txt
