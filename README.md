@@ -29,6 +29,8 @@ meets or does not meet the definition of an Organic Peroxide?
 
 # Commit History and Notes:
 
+Prior to comitting, I used PubChem to add SMILES and molecular weight data to the Product_List.csv file
+
 ### a316f74 init: setup app and test files added smiles and mw
 Accidental early init
 
