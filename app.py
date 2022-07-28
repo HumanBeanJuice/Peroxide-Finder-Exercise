@@ -3,11 +3,15 @@ from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
+import re
 
 # Add SMILES and MW data from PubChem to data .csv file
 
 # Read in the .csv file using Pandas
 df = pd.read_csv('Product_List.csv', engine='python')
+
+# Definte anticipaated inorganic analytes
+inorganic_analytes = ['15630-89-4', '497-19-8']
 
 # Rename columns to make them easier to work with
 df.rename(columns=
@@ -33,6 +37,11 @@ class Analyte():
     min_concentration: float
     max_concentration: float
     molecular_weight: float
+    is_organic: bool=True
+
+    def __post_init__(self) -> None:
+        if self.cas_rn in inorganic_analytes:
+            self.is_organic = False
 
 @dataclass
 class Product():
@@ -78,17 +87,23 @@ class Product():
 
         else:
             
-            peroxide_analytes = [analyte for analyte in self.analytes if 'OO' in analyte.smiles] # Get list of peroxide analytes using smiles where 'OO' is present
+            # In the future, could also use flat formula (or calculate implicit hydrogens from SMILES) to find C-H bonds to identify inorganic analytes
+            organic_peroxide_analytes = [analyte for analyte in self.analytes if 'OO' in analyte.smiles and analyte.is_organic == True] # Get list of peroxide analytes using smiles where 'OO' is present and the analyte is considered organic
             
-            if len(peroxide_analytes) > 0:
+
+            if len(organic_peroxide_analytes) > 0:
                 self.is_organic_peroxide = True # Start off by setting is_organic_peroxide to True if any OO analytes are present in Product, will be False if exceptions apply
                 self.regulatory_definition = '49 CFR 173.128(a)'
+
+            elif len(organic_peroxide_analytes) <= 0:
+                self.is_organic_peroxide = False # Unless there are no organic_peroxides
+                self.regulatory_definition = '49 CFR 173.138(a) - Inorganic or No bivalent -O-O- containing compounds'
 
             oa_list = []
             oa_max = 0
 
-            if any(peroxide.cas_rn == '7722-84-1' for peroxide in peroxide_analytes): # if hydrogen peroxide cas is present in Product, paragraph 4(i) or 4(ii) of regs may apply
-                for analyte in peroxide_analytes:
+            if any(peroxide.cas_rn == '7722-84-1' for peroxide in organic_peroxide_analytes): # if hydrogen peroxide cas is present in Product, paragraph 4(i) or 4(ii) of regs may apply
+                for analyte in organic_peroxide_analytes:
                     if analyte.max_concentration <= 1.0:
                         oa_max = 1.0 # Sets max allowable available oxygen in accordance with paragraph (4)(i)
                     elif analyte.max_concentration > 1.0 and analyte.max_concentration <= 7.0:
@@ -149,6 +164,8 @@ def main() -> None:
     product_list = [product1, product2, product3, product4]
 
     def output(prod_list: list[Product]) -> None:
+
+        print(f'{[(analyte.name, analyte.is_organic) for analyte in product3.analytes]=}')
         print('\nProducts defined as an Organic Peroxide under CFR 173.128(a)(4):')
         for product in product_list:
             if product.is_organic_peroxide == True:
