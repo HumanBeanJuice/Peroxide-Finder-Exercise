@@ -73,5 +73,6 @@ Since (hopefully) none of the products were exempt by the 49 CFR 173.128(a)(4)(i
 ### 06171d3 Add dockerfile and docker-compose add to gitignore
 ### 189ea23 docker-compose.yaml fix keep docker running
 The `sh -c tail -F anything` command is a bit hacky, but it keeps the container running while still detached, allowing the ability to run the testing function defined above
-
+### 46eed8c Added fix for inorganic peroxides
+Added a fix for not taking into account inorganic compounds. Using a list of anticipated inorganic analytes for now. But a potential regex formula with a flat molecular formula ( or calculating implicit hydrogens from SMILES) could be used to check if compound has -C-H moeities to automate determination of organic/inorganic salts/peroxides.
 
