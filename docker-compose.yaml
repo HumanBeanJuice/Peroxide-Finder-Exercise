@@ -2,7 +2,10 @@ services:
   app:
     build: .
     container_name: peroxidizer
-    command: python app.py --reload
+    command: >
+      sh -c "python app.py --reload &&
+            tail -F anything"
+    tty: true
     ports:
       - 80:80
     volumes:

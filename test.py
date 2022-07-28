@@ -77,5 +77,5 @@ class Product_TestCase(unittest.TestCase):
             self.assertEqual(product.regulatory_definition, '49 CFR 173.128(a)(4)(ii)')
 
 
-
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()
